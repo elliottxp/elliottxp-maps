@@ -1,4 +1,4 @@
-const MAPTILER_API_KEY = "jM8uyesHy2rG8yl6ICzy";
+const MAPTILER_API_KEY = "MRdl9X99jU7dbRpY817N";
 
 const map = new maplibregl.Map({
     container: "map",
