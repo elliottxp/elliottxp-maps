@@ -1,5 +1,7 @@
 const MAPTILER_API_KEY = "6wr7ktK4OkJWyKMlhoSb";
 
+const MAPTILER_API_KEY = "";
+
 const map = new maplibregl.Map({
     container: "map",
 
@@ -175,6 +177,30 @@ function getVisiblePlaces() {
         return place.lists.includes(
             currentList
         );
+    });
+}
+
+function panToFeaturedPlace() {
+
+    const featuredPlace =
+        getFeaturedPlace();
+
+
+    if (!featuredPlace) {
+        return;
+    }
+
+
+    map.flyTo({
+
+        center: [
+            Number(featuredPlace.longitude),
+            Number(featuredPlace.latitude)
+        ],
+
+        zoom: 3.5,
+
+        duration: 1800
     });
 }
 
@@ -681,20 +707,24 @@ async function initialise() {
 
         if (urlState.placeId) {
 
-            const place =
-                places.find((item) => {
+    const place =
+        places.find((item) => {
 
-                    return (
-                        item.id ===
-                        urlState.placeId
-                    );
-                });
+            return (
+                item.id ===
+                urlState.placeId
+            );
+        });
 
 
-            if (place) {
-                openPlace(place);
-            }
-        }
+    if (place) {
+        openPlace(place);
+    }
+
+} else {
+
+    panToFeaturedPlace();
+}
 
     } catch (error) {
 

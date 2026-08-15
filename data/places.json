@@ -8,6 +8,7 @@
         "notes": "go early on a wintery cold monrning for fresh baked goods and batch brew",
         "latitude": -35.315519,
         "longitude": 149.163401,
+        "featured": true,
         "lists": [
             "bakery",
             "coffee"
