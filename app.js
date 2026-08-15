@@ -1,6 +1,4 @@
-const MAPTILER_API_KEY = "6wr7ktK4OkJWyKMlhoSb";
-
-const MAPTILER_API_KEY = "";
+const MAPTILER_API_KEY = "7MPdX86zVUf2NL6gNVr8";
 
 const map = new maplibregl.Map({
     container: "map",
@@ -180,6 +178,19 @@ function getVisiblePlaces() {
     });
 }
 
+
+/* ------------------------------
+   Featured place
+------------------------------ */
+
+function getFeaturedPlace() {
+
+    return places.find((place) => {
+        return place.featured === true;
+    });
+}
+
+
 function panToFeaturedPlace() {
 
     const featuredPlace =
@@ -194,8 +205,13 @@ function panToFeaturedPlace() {
     map.flyTo({
 
         center: [
-            Number(featuredPlace.longitude),
-            Number(featuredPlace.latitude)
+            Number(
+                featuredPlace.longitude
+            ),
+
+            Number(
+                featuredPlace.latitude
+            )
         ],
 
         zoom: 3.5,
@@ -216,25 +232,35 @@ function createPlacesGeoJSON() {
 
 
     return {
+
         type: "FeatureCollection",
 
         features:
             visiblePlaces.map((place) => {
 
                 return {
+
                     type: "Feature",
 
                     geometry: {
+
                         type: "Point",
 
                         coordinates: [
-                            Number(place.longitude),
-                            Number(place.latitude)
+                            Number(
+                                place.longitude
+                            ),
+
+                            Number(
+                                place.latitude
+                            )
                         ]
                     },
 
                     properties: {
+
                         id: place.id,
+
                         name: place.name
                     }
                 };
@@ -254,7 +280,8 @@ function createPlaceLayer() {
         {
             type: "geojson",
 
-            data: createPlacesGeoJSON()
+            data:
+                createPlacesGeoJSON()
         }
     );
 
@@ -277,7 +304,8 @@ function createPlaceLayer() {
 
                 "circle-stroke-width": 2,
 
-                "circle-stroke-color": "#f6f5ef"
+                "circle-stroke-color":
+                    "#f6f5ef"
             }
         }
     );
@@ -332,7 +360,9 @@ function setupPlaceInteractions() {
             const place =
                 places.find((item) => {
 
-                    return item.id === placeId;
+                    return (
+                        item.id === placeId
+                    );
                 });
 
 
@@ -609,8 +639,14 @@ function openPlace(place) {
     map.flyTo({
 
         center: [
-            Number(place.longitude),
-            Number(place.latitude)
+
+            Number(
+                place.longitude
+            ),
+
+            Number(
+                place.latitude
+            )
         ],
 
         zoom: Math.max(
@@ -707,24 +743,26 @@ async function initialise() {
 
         if (urlState.placeId) {
 
-    const place =
-        places.find((item) => {
+            const place =
+                places.find((item) => {
 
-            return (
-                item.id ===
-                urlState.placeId
-            );
-        });
+                    return (
+                        item.id ===
+                        urlState.placeId
+                    );
+                });
 
 
-    if (place) {
-        openPlace(place);
-    }
+            if (place) {
 
-} else {
+                openPlace(place);
+            }
 
-    panToFeaturedPlace();
-}
+        } else {
+
+            panToFeaturedPlace();
+        }
+
 
     } catch (error) {
 
