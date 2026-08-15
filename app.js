@@ -18,6 +18,7 @@ const placeContent = document.getElementById("place-content");
 const closePanel = document.getElementById("close-panel");
 const listNavigation = document.getElementById("list-navigation");
 const allPlacesButton = document.getElementById("all-places");
+const resetMapButton = document.getElementById("reset-map");
 
 
 let places = [];
@@ -438,3 +439,17 @@ window.addEventListener(
 
 
 map.on("load", initialise);
+
+resetMapButton.addEventListener(
+    "click",
+    () => {
+
+        closePlace();
+
+        map.flyTo({
+            center: [0, 20],
+            zoom: 1.4,
+            duration: 1000
+        });
+    }
+);
