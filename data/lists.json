@@ -19,4 +19,8 @@
         "id": "walks",
         "name": "Walks"
     }
+    {
+        "id": "health",
+        "name": "Health"
+    }
 ]
