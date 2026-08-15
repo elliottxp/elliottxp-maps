@@ -13,6 +13,13 @@ const map = new maplibregl.Map({
     minZoom: 1
 });
 
+map.addControl(
+    new maplibregl.AttributionControl({
+        compact: true
+    }),
+    "bottom-right"
+);
+
 
 const placePanel = document.getElementById("place-panel");
 const placeContent = document.getElementById("place-content");
