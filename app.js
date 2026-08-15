@@ -11,3 +11,49 @@ const map = new maplibregl.Map({
 
     minZoom: 1
 });
+
+
+async function loadPlaces() {
+    const response = await fetch("data/places.json");
+
+    if (!response.ok) {
+        throw new Error("Unable to load places.json");
+    }
+
+    return response.json();
+}
+
+
+function addPlaceMarker(place) {
+    const markerElement = document.createElement("button");
+
+    markerElement.className = "place-marker";
+
+    markerElement.type = "button";
+
+    markerElement.setAttribute("aria-label", place.name);
+
+    markerElement.addEventListener("click", () => {
+        console.log(place);
+    });
+
+    new maplibregl.Marker({
+        element: markerElement
+    })
+        .setLngLat([place.longitude, place.latitude])
+        .addTo(map);
+}
+
+
+async function initialisePlaces() {
+    try {
+        const places = await loadPlaces();
+
+        places.forEach(addPlaceMarker);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+map.on("load", initialisePlaces);

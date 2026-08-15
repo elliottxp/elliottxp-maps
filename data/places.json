@@ -1,0 +1,29 @@
+[
+    {
+        "id": "bar-rochford",
+        "name": "Bar Rochford",
+        "category": "Drink",
+        "address": "65 London Circuit, Canberra ACT",
+        "website": "https://barrochford.com.au",
+        "notes": "A favourite place for dinner and drinks.",
+        "latitude": -35.2809,
+        "longitude": 149.1300,
+        "lists": [
+            "favourites",
+            "drink"
+        ]
+    },
+    {
+        "id": "eiffel-tower",
+        "name": "Eiffel Tower",
+        "category": "Landmark",
+        "address": "Paris, France",
+        "website": "https://www.toureiffel.paris/",
+        "notes": "A test place for the world map.",
+        "latitude": 48.8584,
+        "longitude": 2.2945,
+        "lists": [
+            "favourites"
+        ]
+    }
+]
