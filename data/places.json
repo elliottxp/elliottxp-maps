@@ -102,7 +102,33 @@
         "latitude": -35.30167771468746,
         "longitude": 149.13648446193454,
         "lists": [
-            "coffee"
+            "outdoor"
         ]
+    },
+    {
+        "id": "Mona Farm",
+        "name": "Mona Farm",
+        "category": "Outdoor",
+        "address": "140 Little River Rd, Braidwood NSW 2622",
+        "website": "https://monafarm.com.au/",
+        "notes": "In the winter and in the outdoor spa, just before dinner was served.",
+        "latitude": -35.44445210275115,
+        "longitude": 149.815018798152,
+        "lists": [
+            "outdoor"
+        ] 
+    },
+    {
+        "id": "Moksa",
+        "name": "Moksa Rebirth Hotel",
+        "category": "Health",
+        "address": "65 Kamitakano Higashiyama, Sakyo Ward, Kyoto, 606-0067, Japan",
+        "website": "https://moksa.jp/",
+        "notes": "Sleeping in the mountains with the rain on the orange leaves.",
+        "latitude": 35.06329523651333,
+        "longitude": 135.8070056386332,
+        "lists": [
+            "health"
+        ]  
     }
 ]
