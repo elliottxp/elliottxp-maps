@@ -26,5 +26,70 @@
         "lists": [
             "health"
         ]
+    },
+    {
+        "id": "INCredible COFFEE",
+        "name": "INCredible COFFEE Koenji",
+        "category": "Coffee",
+        "address": "2 Chome-22-2 Koenjikita, Suginami City, Tokyo 166-0002, Japan",
+        "website": "https://www.youtube.com/@incrediblecoffee2020",
+        "notes": "I have been watching hiphop sets on youtube for many years, to finally see the shop outside of the gopro videos was better than i expected. While I was there is was raining, the shop front was open and had great atmosphere kind staff and good coffee, worhth the train from Tokyo.",
+        "latitude": 35.70739874228613,
+        "longitude": 139.65045922008827, 
+        "lists": [
+            "coffee"
+        ]
+    },
+    {
+        "id": "Hario Cafe Kyoto",
+        "name": "Hario Cafe Kyoto",
+        "category": "Coffee",
+        "address": "Japan, 〒605-0825 Kyoto, Higashiyama Ward, Shimokawaracho, 463-17",
+        "website": "https://hariocafe-lwf.com/",
+        "notes": "I have been using a v60 for years, this was the first time i experianced how a v60 is meant to be prepared and what a v60 is meant to taste like",
+        "latitude": 34.993170,
+        "longitude": 135.774166,
+        "lists": [
+            "coffee"
+        ]
+    },
+    {
+        "id": "Alchemy Saunas - East Fremantle",
+        "name": "Alchemy Saunas - East Fremantle",
+        "category": "Health",
+        "address": "34 Duke St, East Fremantle WA 6158",
+        "website": "https://www.alchemysaunas.com.au/",
+        "notes": "I have only been here once, but out of all the saunas, this is the best one I have ever been to.",
+        "latitude": -32.04385600474576,
+        "longitude": 115.76344884790109,
+        "lists": [
+            "Health"
+        ]
+    },
+    {
+        "id": "COMO",
+        "name": "COMO The Treasury",
+        "category": "Health",
+        "address": "1 Cathedral Ave, Perth WA 6000",
+        "website": "https://www.comohotels.com/perth/como-the-treasury?utm_source=Google&utm_medium=GoogleMyBusiness&utm_campaign=GMBprofile",
+        "notes": "THis is a beautiful hotel, quiet, private, staff were respectful, the architecture is beautiful, the spa is amazing, the sauna is amazing, the pool is amazing, the gym is amazing, the food is amazing, the drinks are amazing, the rooms are amazing, the views are amazing, the service is amazing, the location is amazing, the atmosphere is amazing, the vibe is amazing, the energy is amazing, the experience is amazing.",
+        "latitude": -31.955629564994958,
+        "longitude": 115.8605337329496,
+        "lists": [
+            "Health"
+        ]
+    },
+    {
+        "id": "Shop 1875",
+        "name": "Shop 1875",
+        "category": "Coffee",
+        "address": "1 Cathedral Ave, Perth WA 6000",
+        "website": "https://statebuildings.com/venues/shop-1875",
+        "notes": "It was hard to find good coffee in perth, foudn good coffee",
+        "latitude": -31.955629564994958,
+        "longitude": 115.8605337329496,
+        "lists": [
+            "coffee"
+        ]
     }
 ]
