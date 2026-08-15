@@ -185,99 +185,69 @@ function updateUrl() {
 }
 
 
-function loadListFromUrl() {
+function loadStateFromUrl() {
 
     const url = new URL(window.location.href);
 
     const listId = url.searchParams.get("list");
+    const placeId = url.searchParams.get("place");
 
-    if (!listId) {
-        return;
+
+    if (listId) {
+
+        const listExists = lists.some((list) => {
+            return list.id === listId;
+        });
+
+        if (listExists) {
+            currentList = listId;
+        }
     }
 
-    const listExists = lists.some((list) => {
-        return list.id === listId;
-    });
 
-    if (listExists) {
-        currentList = listId;
-    }
+    return {
+        placeId
+    };
 }
 
+function updatePlaceUrl(placeId) {
+
+    const url = new URL(window.location.href);
+
+    url.searchParams.set("place", placeId);
+
+    window.history.pushState(
+        {},
+        "",
+        url
+    );
+}
 
 function openPlace(place) {
 
-    placeContent.innerHTML = "";
+placePanel.classList.add("is-visible");
 
-    const name = document.createElement("h2");
+placePanel.setAttribute(
+    "aria-hidden",
+    "false"
+);
 
-    name.className = "place-name";
-    name.textContent = place.name;
-
-
-    const category = document.createElement("div");
-
-    category.className = "place-category";
-    category.textContent = place.category;
+updatePlaceUrl(place.id);
 
 
-    const address = document.createElement("div");
+map.flyTo({
+    center: [
+        place.longitude,
+        place.latitude
+    ],
 
-    address.className = "place-address";
-    address.textContent = place.address;
+    zoom: Math.max(
+        map.getZoom(),
+        5
+    ),
 
-
-    const notes = document.createElement("div");
-
-    notes.className = "place-notes";
-    notes.textContent = place.notes;
-
-
-    placeContent.appendChild(name);
-    placeContent.appendChild(category);
-    placeContent.appendChild(address);
-    placeContent.appendChild(notes);
-
-
-    if (place.website) {
-
-        const website = document.createElement("a");
-
-        website.className = "place-website";
-
-        website.href = place.website;
-
-        website.target = "_blank";
-
-        website.rel = "noopener noreferrer";
-
-        website.textContent = "Visit website";
-
-        placeContent.appendChild(website);
-    }
-
-
-    placePanel.classList.add("is-visible");
-
-    placePanel.setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-
-    map.flyTo({
-        center: [
-            place.longitude,
-            place.latitude
-        ],
-
-        zoom: Math.max(
-            map.getZoom(),
-            5
-        ),
-
-        duration: 1000
-    });
+    duration: 1000
+});
 }
 
 
@@ -291,6 +261,17 @@ function closePlace() {
         "aria-hidden",
         "true"
     );
+
+
+    const url = new URL(window.location.href);
+
+    url.searchParams.delete("place");
+
+    window.history.pushState(
+        {},
+        "",
+        url
+    );
 }
 
 
@@ -300,13 +281,25 @@ async function initialise() {
 
         await loadData();
 
-        loadListFromUrl();
+        const urlState = loadStateFromUrl();
 
         createListNavigation();
 
         updateActiveList();
 
         renderPlaces();
+
+
+        if (urlState.placeId) {
+
+            const place = places.find((item) => {
+                return item.id === urlState.placeId;
+            });
+
+            if (place) {
+                openPlace(place);
+            }
+        }
 
     } catch (error) {
 
@@ -333,3 +326,4 @@ allPlacesButton.addEventListener(
 
 
 map.on("load", initialise);
+
