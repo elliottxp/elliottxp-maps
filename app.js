@@ -32,7 +32,6 @@ const resetMapButton = document.getElementById("reset-map");
 let places = [];
 let lists = [];
 let currentList = null;
-let markers = [];
 
 
 /* ------------------------------
@@ -121,27 +120,10 @@ function getVisiblePlaces() {
    Markers
 ------------------------------ */
 
-function removeMarkers() {
-
-    markers.forEach((marker) => {
-        marker.remove();
-    });
-
-    markers = [];
-}
 
 
-function addPlaceMarker(place) {
 
-    const markerElement = document.createElement("button");
 
-    markerElement.className = "place-marker";
-    markerElement.type = "button";
-
-    markerElement.setAttribute(
-        "aria-label",
-        place.name
-    );
 
     markerElement.addEventListener("click", () => {
         openPlace(place);
@@ -159,19 +141,130 @@ function addPlaceMarker(place) {
     markers.push(marker);
 }
 
+function getVisiblePlaces() {
 
-function renderPlaces() {
+    if (!currentList) {
+        return places;
+    }
 
-    removeMarkers();
+    return places.filter((place) => {
 
-    const visiblePlaces = getVisiblePlaces();
+        if (!Array.isArray(place.lists)) {
+            return false;
+        }
 
-    visiblePlaces.forEach((place) => {
-        addPlaceMarker(place);
+        return place.lists.includes(currentList);
     });
 }
 
 
+function createPlacesGeoJSON() {
+
+    const visiblePlaces = getVisiblePlaces();
+
+    return {
+        type: "FeatureCollection",
+
+        features: visiblePlaces.map((place) => {
+
+            return {
+                type: "Feature",
+
+                geometry: {
+                    type: "Point",
+
+                    coordinates: [
+                        place.longitude,
+                        place.latitude
+                    ]
+                },
+
+                properties: {
+                    id: place.id,
+                    name: place.name
+                }
+            };
+        })
+    };
+}
+
+function createPlaceLayer() {
+
+    map.addSource("places", {
+        type: "geojson",
+
+        data: createPlacesGeoJSON()
+    });
+
+
+    map.addLayer({
+        id: "place-points",
+
+        type: "circle",
+
+        source: "places",
+
+        paint: {
+
+            "circle-radius": 5,
+
+            "circle-color": "#33312e",
+
+            "circle-opacity": 1,
+
+            "circle-stroke-width": 2,
+
+            "circle-stroke-color": "#f6f5ef"
+        }
+    });
+}
+
+function setupPlaceInteractions() {
+
+    map.on("click", "place-points", (event) => {
+
+        const feature = event.features[0];
+
+        if (!feature) {
+            return;
+        }
+
+        const placeId = feature.properties.id;
+
+        const place = places.find((item) => {
+            return item.id === placeId;
+        });
+
+        if (place) {
+            openPlace(place);
+        }
+    });
+
+
+    map.on("mouseenter", "place-points", () => {
+
+        map.getCanvas().style.cursor = "pointer";
+    });
+
+
+    map.on("mouseleave", "place-points", () => {
+
+        map.getCanvas().style.cursor = "";
+    });
+}
+
+function renderPlaces() {
+
+    const source = map.getSource("places");
+
+    if (!source) {
+        return;
+    }
+
+    source.setData(
+        createPlacesGeoJSON()
+    );
+}
 /* ------------------------------
    List selection
 ------------------------------ */
@@ -392,7 +485,9 @@ async function initialise() {
 
         updateActiveList();
 
-        renderPlaces();
+        createPlaceLayer();
+
+        setupPlaceInteractions();
 
 
         if (urlState.placeId) {

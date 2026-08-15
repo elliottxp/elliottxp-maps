@@ -138,45 +138,6 @@ body {
 }
 
 
-/* --------------------------------
-   Map markers
--------------------------------- */
-
-.place-marker {
-    width: 10px;
-    height: 10px;
-
-    padding: 0;
-
-    border:
-        1px solid
-        var(--marker);
-
-    border-radius: 50%;
-
-    background:
-        var(--marker-background);
-
-    cursor: pointer;
-
-    box-shadow:
-        0 0 0 4px
-        rgba(246, 245, 239, 0.65);
-
-    transition:
-        transform 180ms ease,
-        background-color 180ms ease;
-}
-
-
-.place-marker:hover,
-.place-marker:focus-visible {
-    background: var(--marker);
-
-    transform: scale(1.5);
-
-    outline: none;
-}
 
 
 /* --------------------------------
