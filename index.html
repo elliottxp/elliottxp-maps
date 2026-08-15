@@ -1,48 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>places i like</title>
+
+
+    <!-- MapLibre -->
 
     <link
         href="https://unpkg.com/maplibre-gl@5.14.0/dist/maplibre-gl.css"
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="styles.css">
-    
+
+    <!-- Inter -->
+
     <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
->
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
 
-<link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
->
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
-<link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-    rel="stylesheet"
->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- Site styles -->
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+
 </head>
+
 
 <body>
 
+    <!-- Map -->
+
     <main id="map"></main>
+
+
+    <!-- Site header -->
 
     <header class="site-header">
 
         <a
-            href="/"
+            href="#"
             class="site-title"
             id="all-places"
         >
             places i like
         </a>
+
 
         <nav
             id="list-navigation"
@@ -51,18 +77,27 @@
         ></nav>
 
     </header>
+
+
+    <!-- World reset -->
+
     <button
-    id="reset-map"
-    class="reset-map"
-    type="button"
->
-    World
-</button>
+        id="reset-map"
+        class="reset-map"
+        type="button"
+    >
+        World
+    </button>
+
+
+    <!-- Place panel -->
+
     <section
         id="place-panel"
         class="place-panel"
         aria-hidden="true"
     >
+
         <button
             id="close-panel"
             class="close-panel"
@@ -72,11 +107,23 @@
             Close
         </button>
 
+
         <div id="place-content"></div>
+
     </section>
 
-    <script src="https://unpkg.com/maplibre-gl@5.14.0/dist/maplibre-gl.js"></script>
+
+    <!-- MapLibre -->
+
+    <script
+        src="https://unpkg.com/maplibre-gl@5.14.0/dist/maplibre-gl.js"
+    ></script>
+
+
+    <!-- Application -->
+
     <script src="app.js"></script>
 
 </body>
+
 </html>

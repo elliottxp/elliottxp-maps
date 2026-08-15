@@ -4,7 +4,6 @@ const map = new maplibregl.Map({
     container: "map",
 
     style: `https://api.maptiler.com/maps/01a003b1-871c-7214-b769-c0d7dbbe5e2a/style.json?key=${MAPTILER_API_KEY}`,
-    
 
     center: [0, 20],
 
@@ -12,6 +11,11 @@ const map = new maplibregl.Map({
 
     minZoom: 1
 });
+
+
+/* ------------------------------
+   Map controls
+------------------------------ */
 
 map.addControl(
     new maplibregl.AttributionControl({
@@ -21,16 +25,37 @@ map.addControl(
 );
 
 
-const placePanel = document.getElementById("place-panel");
-const placeContent = document.getElementById("place-content");
-const closePanel = document.getElementById("close-panel");
-const listNavigation = document.getElementById("list-navigation");
-const allPlacesButton = document.getElementById("all-places");
-const resetMapButton = document.getElementById("reset-map");
+/* ------------------------------
+   DOM elements
+------------------------------ */
 
+const placePanel =
+    document.getElementById("place-panel");
+
+const placeContent =
+    document.getElementById("place-content");
+
+const closePanel =
+    document.getElementById("close-panel");
+
+const listNavigation =
+    document.getElementById("list-navigation");
+
+const allPlacesButton =
+    document.getElementById("all-places");
+
+const resetMapButton =
+    document.getElementById("reset-map");
+
+
+/* ------------------------------
+   Application state
+------------------------------ */
 
 let places = [];
+
 let lists = [];
+
 let currentList = null;
 
 
@@ -40,21 +65,34 @@ let currentList = null;
 
 async function loadData() {
 
-    const [placesResponse, listsResponse] = await Promise.all([
+    const [
+        placesResponse,
+        listsResponse
+    ] = await Promise.all([
         fetch("data/places.json"),
         fetch("data/lists.json")
     ]);
 
+
     if (!placesResponse.ok) {
-        throw new Error("Unable to load places.json");
+        throw new Error(
+            "Unable to load places.json"
+        );
     }
+
 
     if (!listsResponse.ok) {
-        throw new Error("Unable to load lists.json");
+        throw new Error(
+            "Unable to load lists.json"
+        );
     }
 
-    places = await placesResponse.json();
-    lists = await listsResponse.json();
+
+    places =
+        await placesResponse.json();
+
+    lists =
+        await listsResponse.json();
 }
 
 
@@ -66,17 +104,29 @@ function createListNavigation() {
 
     listNavigation.innerHTML = "";
 
+
     lists.forEach((list) => {
 
-        const button = document.createElement("button");
+        const button =
+            document.createElement("button");
+
 
         button.type = "button";
-        button.className = "list-button";
-        button.textContent = list.name;
 
-        button.addEventListener("click", () => {
-            selectList(list.id);
-        });
+        button.className =
+            "list-button";
+
+        button.textContent =
+            list.name;
+
+
+        button.addEventListener(
+            "click",
+            () => {
+                selectList(list.id);
+            }
+        );
+
 
         listNavigation.appendChild(button);
     });
@@ -85,11 +135,16 @@ function createListNavigation() {
 
 function updateActiveList() {
 
-    const buttons = listNavigation.querySelectorAll(".list-button");
+    const buttons =
+        listNavigation.querySelectorAll(
+            ".list-button"
+        );
+
 
     buttons.forEach((button, index) => {
 
         const list = lists[index];
+
 
         button.classList.toggle(
             "is-active",
@@ -99,11 +154,16 @@ function updateActiveList() {
 }
 
 
+/* ------------------------------
+   Places
+------------------------------ */
+
 function getVisiblePlaces() {
 
     if (!currentList) {
         return places;
     }
+
 
     return places.filter((place) => {
 
@@ -111,160 +171,175 @@ function getVisiblePlaces() {
             return false;
         }
 
-        return place.lists.includes(currentList);
+
+        return place.lists.includes(
+            currentList
+        );
     });
 }
 
 
 /* ------------------------------
-   Markers
+   GeoJSON
 ------------------------------ */
-
-
-
-
-
-
-    markerElement.addEventListener("click", () => {
-        openPlace(place);
-    });
-
-    const marker = new maplibregl.Marker({
-        element: markerElement
-    })
-        .setLngLat([
-            place.longitude,
-            place.latitude
-        ])
-        .addTo(map);
-
-    markers.push(marker);
-}
-
-function getVisiblePlaces() {
-
-    if (!currentList) {
-        return places;
-    }
-
-    return places.filter((place) => {
-
-        if (!Array.isArray(place.lists)) {
-            return false;
-        }
-
-        return place.lists.includes(currentList);
-    });
-}
-
 
 function createPlacesGeoJSON() {
 
-    const visiblePlaces = getVisiblePlaces();
+    const visiblePlaces =
+        getVisiblePlaces();
+
 
     return {
         type: "FeatureCollection",
 
-        features: visiblePlaces.map((place) => {
+        features:
+            visiblePlaces.map((place) => {
 
-            return {
-                type: "Feature",
+                return {
+                    type: "Feature",
 
-                geometry: {
-                    type: "Point",
+                    geometry: {
+                        type: "Point",
 
-                    coordinates: [
-                        place.longitude,
-                        place.latitude
-                    ]
-                },
+                        coordinates: [
+                            Number(place.longitude),
+                            Number(place.latitude)
+                        ]
+                    },
 
-                properties: {
-                    id: place.id,
-                    name: place.name
-                }
-            };
-        })
+                    properties: {
+                        id: place.id,
+                        name: place.name
+                    }
+                };
+            })
     };
 }
 
+
+/* ------------------------------
+   Place map layer
+------------------------------ */
+
 function createPlaceLayer() {
 
-    map.addSource("places", {
-        type: "geojson",
+    map.addSource(
+        "places",
+        {
+            type: "geojson",
 
-        data: createPlacesGeoJSON()
-    });
-
-
-    map.addLayer({
-        id: "place-points",
-
-        type: "circle",
-
-        source: "places",
-
-        paint: {
-
-            "circle-radius": 5,
-
-            "circle-color": "#33312e",
-
-            "circle-opacity": 1,
-
-            "circle-stroke-width": 2,
-
-            "circle-stroke-color": "#f6f5ef"
+            data: createPlacesGeoJSON()
         }
-    });
+    );
+
+
+    map.addLayer(
+        {
+            id: "place-points",
+
+            type: "circle",
+
+            source: "places",
+
+            paint: {
+
+                "circle-radius": 5,
+
+                "circle-color": "#33312e",
+
+                "circle-opacity": 1,
+
+                "circle-stroke-width": 2,
+
+                "circle-stroke-color": "#f6f5ef"
+            }
+        }
+    );
 }
 
-function setupPlaceInteractions() {
 
-    map.on("click", "place-points", (event) => {
-
-        const feature = event.features[0];
-
-        if (!feature) {
-            return;
-        }
-
-        const placeId = feature.properties.id;
-
-        const place = places.find((item) => {
-            return item.id === placeId;
-        });
-
-        if (place) {
-            openPlace(place);
-        }
-    });
-
-
-    map.on("mouseenter", "place-points", () => {
-
-        map.getCanvas().style.cursor = "pointer";
-    });
-
-
-    map.on("mouseleave", "place-points", () => {
-
-        map.getCanvas().style.cursor = "";
-    });
-}
+/* ------------------------------
+   Update map places
+------------------------------ */
 
 function renderPlaces() {
 
-    const source = map.getSource("places");
+    const source =
+        map.getSource("places");
+
 
     if (!source) {
         return;
     }
 
+
     source.setData(
         createPlacesGeoJSON()
     );
 }
+
+
+/* ------------------------------
+   Place interactions
+------------------------------ */
+
+function setupPlaceInteractions() {
+
+    map.on(
+        "click",
+        "place-points",
+        (event) => {
+
+            const feature =
+                event.features?.[0];
+
+
+            if (!feature) {
+                return;
+            }
+
+
+            const placeId =
+                feature.properties.id;
+
+
+            const place =
+                places.find((item) => {
+
+                    return item.id === placeId;
+                });
+
+
+            if (place) {
+                openPlace(place);
+            }
+        }
+    );
+
+
+    map.on(
+        "mouseenter",
+        "place-points",
+        () => {
+
+            map.getCanvas().style.cursor =
+                "pointer";
+        }
+    );
+
+
+    map.on(
+        "mouseleave",
+        "place-points",
+        () => {
+
+            map.getCanvas().style.cursor =
+                "";
+        }
+    );
+}
+
+
 /* ------------------------------
    List selection
 ------------------------------ */
@@ -273,11 +348,15 @@ function selectList(listId) {
 
     currentList = listId;
 
+
     updateActiveList();
+
 
     renderPlaces();
 
+
     closePlace(false);
+
 
     updateUrl();
 }
@@ -287,11 +366,15 @@ function showAllPlaces() {
 
     currentList = null;
 
+
     updateActiveList();
+
 
     renderPlaces();
 
+
     closePlace(false);
+
 
     updateUrl();
 }
@@ -303,41 +386,75 @@ function showAllPlaces() {
 
 function updateUrl() {
 
-    const url = new URL(window.location.href);
+    const url =
+        new URL(window.location.href);
+
 
     if (currentList) {
-        url.searchParams.set("list", currentList);
+
+        url.searchParams.set(
+            "list",
+            currentList
+        );
+
     } else {
-        url.searchParams.delete("list");
+
+        url.searchParams.delete(
+            "list"
+        );
     }
 
-    window.history.pushState({}, "", url);
+
+    window.history.pushState(
+        {},
+        "",
+        url
+    );
 }
 
 
 function updatePlaceUrl(placeId) {
 
-    const url = new URL(window.location.href);
+    const url =
+        new URL(window.location.href);
 
-    url.searchParams.set("place", placeId);
 
-    window.history.pushState({}, "", url);
+    url.searchParams.set(
+        "place",
+        placeId
+    );
+
+
+    window.history.pushState(
+        {},
+        "",
+        url
+    );
 }
 
 
 function loadStateFromUrl() {
 
-    const url = new URL(window.location.href);
+    const url =
+        new URL(window.location.href);
 
-    const listId = url.searchParams.get("list");
-    const placeId = url.searchParams.get("place");
+
+    const listId =
+        url.searchParams.get("list");
+
+
+    const placeId =
+        url.searchParams.get("place");
 
 
     if (listId) {
 
-        const listExists = lists.some((list) => {
-            return list.id === listId;
-        });
+        const listExists =
+            lists.some((list) => {
+
+                return list.id === listId;
+            });
+
 
         if (listExists) {
             currentList = listId;
@@ -360,32 +477,52 @@ function openPlace(place) {
     placeContent.innerHTML = "";
 
 
-    const name = document.createElement("h2");
-
-    name.className = "place-name";
-
-    name.textContent = place.name;
+    const name =
+        document.createElement("h2");
 
 
-    const category = document.createElement("div");
-
-    category.className = "place-category";
-
-    category.textContent = place.category;
+    name.className =
+        "place-name";
 
 
-    const address = document.createElement("div");
-
-    address.className = "place-address";
-
-    address.textContent = place.address;
+    name.textContent =
+        place.name;
 
 
-    const notes = document.createElement("div");
+    const category =
+        document.createElement("div");
 
-    notes.className = "place-notes";
 
-    notes.textContent = place.notes;
+    category.className =
+        "place-category";
+
+
+    category.textContent =
+        place.category;
+
+
+    const address =
+        document.createElement("div");
+
+
+    address.className =
+        "place-address";
+
+
+    address.textContent =
+        place.address;
+
+
+    const notes =
+        document.createElement("div");
+
+
+    notes.className =
+        "place-notes";
+
+
+    notes.textContent =
+        place.notes;
 
 
     placeContent.appendChild(name);
@@ -399,23 +536,40 @@ function openPlace(place) {
 
     if (place.website) {
 
-        const website = document.createElement("a");
+        const website =
+            document.createElement("a");
 
-        website.className = "place-website";
 
-        website.href = place.website;
+        website.className =
+            "place-website";
 
-        website.target = "_blank";
 
-        website.rel = "noopener noreferrer";
+        website.href =
+            place.website;
 
-        website.textContent = "Visit website";
 
-        placeContent.appendChild(website);
+        website.target =
+            "_blank";
+
+
+        website.rel =
+            "noopener noreferrer";
+
+
+        website.textContent =
+            "Visit website";
+
+
+        placeContent.appendChild(
+            website
+        );
     }
 
 
-    placePanel.classList.add("is-visible");
+    placePanel.classList.add(
+        "is-visible"
+    );
+
 
     placePanel.setAttribute(
         "aria-hidden",
@@ -427,9 +581,10 @@ function openPlace(place) {
 
 
     map.flyTo({
+
         center: [
-            place.longitude,
-            place.latitude
+            Number(place.longitude),
+            Number(place.latitude)
         ],
 
         zoom: Math.max(
@@ -442,11 +597,14 @@ function openPlace(place) {
 }
 
 
-function closePlace(updateBrowserUrl = true) {
+function closePlace(
+    updateBrowserUrl = true
+) {
 
     placePanel.classList.remove(
         "is-visible"
     );
+
 
     placePanel.setAttribute(
         "aria-hidden",
@@ -456,9 +614,14 @@ function closePlace(updateBrowserUrl = true) {
 
     if (updateBrowserUrl) {
 
-        const url = new URL(window.location.href);
+        const url =
+            new URL(window.location.href);
 
-        url.searchParams.delete("place");
+
+        url.searchParams.delete(
+            "place"
+        );
+
 
         window.history.pushState(
             {},
@@ -466,6 +629,26 @@ function closePlace(updateBrowserUrl = true) {
             url
         );
     }
+}
+
+
+/* ------------------------------
+   World reset
+------------------------------ */
+
+function resetMap() {
+
+    closePlace();
+
+
+    map.flyTo({
+
+        center: [0, 20],
+
+        zoom: 1.4,
+
+        duration: 1000
+    });
 }
 
 
@@ -479,22 +662,33 @@ async function initialise() {
 
         await loadData();
 
-        const urlState = loadStateFromUrl();
+
+        const urlState =
+            loadStateFromUrl();
+
 
         createListNavigation();
 
+
         updateActiveList();
 
+
         createPlaceLayer();
+
 
         setupPlaceInteractions();
 
 
         if (urlState.placeId) {
 
-            const place = places.find((item) => {
-                return item.id === urlState.placeId;
-            });
+            const place =
+                places.find((item) => {
+
+                    return (
+                        item.id ===
+                        urlState.placeId
+                    );
+                });
 
 
             if (place) {
@@ -504,7 +698,10 @@ async function initialise() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Map initialisation failed:",
+            error
+        );
     }
 }
 
@@ -516,6 +713,7 @@ async function initialise() {
 closePanel.addEventListener(
     "click",
     () => {
+
         closePlace(true);
     }
 );
@@ -532,6 +730,16 @@ allPlacesButton.addEventListener(
 );
 
 
+resetMapButton.addEventListener(
+    "click",
+    resetMap
+);
+
+
+/* ------------------------------
+   Browser navigation
+------------------------------ */
+
 window.addEventListener(
     "popstate",
     () => {
@@ -541,18 +749,11 @@ window.addEventListener(
 );
 
 
-map.on("load", initialise);
+/* ------------------------------
+   Start application
+------------------------------ */
 
-resetMapButton.addEventListener(
-    "click",
-    () => {
-
-        closePlace();
-
-        map.flyTo({
-            center: [0, 20],
-            zoom: 1.4,
-            duration: 1000
-        });
-    }
+map.on(
+    "load",
+    initialise
 );
