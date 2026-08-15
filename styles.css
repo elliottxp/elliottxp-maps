@@ -1,79 +1,114 @@
 :root {
-    --background: #f5f4ee;
-    --surface: #f5f4ee;
-    --text: #33312e;
-    --muted: #77736d;
-    --border: #d8d5cc;
-    --accent: #33312e;
+    --paper: #f6f5ef;
+    --paper-deep: #ebe9df;
+
+    --ink: #33312e;
+    --ink-soft: #66625b;
+    --ink-faint: #918c82;
+
+    --line: #d8d5ca;
+
+    --marker: #33312e;
+    --marker-background: #f6f5ef;
 }
+
 
 * {
     box-sizing: border-box;
 }
 
+
 html,
 body {
     width: 100%;
     height: 100%;
+
     margin: 0;
     padding: 0;
 }
 
+
 body {
-    background: var(--background);
-    color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
+    background: var(--paper);
+
+    color: var(--ink);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
 }
+
 
 #map {
     position: fixed;
     inset: 0;
 }
 
-/* Header */
+
+/* --------------------------------
+   Site header
+-------------------------------- */
 
 .site-header {
     position: fixed;
+
     z-index: 20;
 
-    top: 20px;
-    left: 20px;
-    right: 20px;
+    top: 24px;
+    left: 28px;
+    right: 28px;
 
     display: flex;
-    align-items: center;
-    gap: 32px;
+
+    align-items: baseline;
+
+    gap: 36px;
 }
+
 
 .site-title {
     flex-shrink: 0;
 
-    color: var(--text);
+    color: var(--ink);
 
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1;
+
     font-weight: 600;
-    letter-spacing: 0.06em;
+
+    letter-spacing: 0.08em;
+
     text-transform: uppercase;
 
     text-decoration: none;
 }
 
+
 .list-navigation {
     display: flex;
+
     align-items: center;
-    gap: 20px;
+
+    gap: 22px;
 
     overflow-x: auto;
 
     scrollbar-width: none;
 }
 
+
 .list-navigation::-webkit-scrollbar {
     display: none;
 }
 
+
 .list-button {
     flex-shrink: 0;
+
+    display: block;
 
     padding: 0;
 
@@ -81,33 +116,42 @@ body {
 
     background: transparent;
 
-    color: var(--muted);
+    color: var(--ink-faint);
 
     font-family: inherit;
+
     font-size: 12px;
+
+    line-height: 1;
 
     cursor: pointer;
 
-    transition: color 180ms ease;
+    transition:
+        color 180ms ease;
 }
+
 
 .list-button:hover,
 .list-button.is-active {
-    color: var(--text);
+    color: var(--ink);
 }
 
 
-/* Place markers */
+/* --------------------------------
+   Map markers
+-------------------------------- */
 
 .place-marker {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
+
     padding: 0;
 
-    border: 1px solid var(--accent);
+    border: 1px solid var(--marker);
+
     border-radius: 50%;
 
-    background: var(--surface);
+    background: var(--marker-background);
 
     cursor: pointer;
 
@@ -116,53 +160,76 @@ body {
         background-color 180ms ease;
 }
 
-.place-marker:hover {
-    background: var(--accent);
+
+.place-marker:hover,
+.place-marker:focus-visible {
+    background: var(--marker);
+
     transform: scale(1.5);
+
+    outline: none;
 }
 
 
-/* Place panel */
+/* --------------------------------
+   Place panel
+-------------------------------- */
 
 .place-panel {
     position: fixed;
+
     z-index: 30;
 
-    left: 20px;
-    bottom: 20px;
+    left: 28px;
+    bottom: 28px;
 
-    width: min(380px, calc(100vw - 40px));
+    width: min(
+        390px,
+        calc(100vw - 56px)
+    );
 
-    padding: 28px;
+    padding: 30px;
 
-    background: var(--surface);
+    background: var(--paper);
 
-    border: 1px solid var(--border);
+    border: 1px solid var(--line);
 
     box-shadow:
-        0 12px 40px rgba(40, 38, 34, 0.12);
+        0 18px 50px rgba(35, 33, 29, 0.10);
 
     opacity: 0;
+
     visibility: hidden;
-    transform: translateY(12px);
+
+    transform:
+        translateY(14px);
 
     transition:
-        opacity 200ms ease,
-        transform 200ms ease,
-        visibility 200ms ease;
+        opacity 220ms ease,
+        transform 220ms ease,
+        visibility 220ms ease;
 }
+
 
 .place-panel.is-visible {
     opacity: 1;
+
     visibility: visible;
-    transform: translateY(0);
+
+    transform:
+        translateY(0);
 }
+
+
+/* --------------------------------
+   Close
+-------------------------------- */
 
 .close-panel {
     position: absolute;
 
-    top: 20px;
-    right: 20px;
+    top: 22px;
+    right: 22px;
 
     padding: 0;
 
@@ -170,94 +237,141 @@ body {
 
     background: transparent;
 
-    color: var(--muted);
+    color: var(--ink-faint);
 
     font-family: inherit;
-    font-size: 12px;
+
+    font-size: 11px;
+
+    letter-spacing: 0.04em;
 
     cursor: pointer;
 }
 
+
 .close-panel:hover {
-    color: var(--text);
+    color: var(--ink);
 }
 
 
-/* Place information */
+/* --------------------------------
+   Place information
+-------------------------------- */
 
 .place-name {
-    margin: 0 40px 8px 0;
+    margin:
+        0
+        42px
+        10px
+        0;
 
-    font-size: 24px;
+    color: var(--ink);
+
+    font-size: 25px;
+
     line-height: 1.15;
+
     font-weight: 400;
-    letter-spacing: -0.02em;
+
+    letter-spacing: -0.025em;
 }
+
 
 .place-category {
-    margin-bottom: 24px;
+    margin-bottom: 26px;
 
-    color: var(--muted);
+    color: var(--ink-soft);
 
-    font-size: 12px;
+    font-size: 10px;
+
+    line-height: 1;
+
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+
+    letter-spacing: 0.11em;
 }
+
 
 .place-address {
     margin-bottom: 20px;
 
+    color: var(--ink);
+
     font-size: 14px;
-    line-height: 1.5;
+
+    line-height: 1.55;
 }
+
 
 .place-notes {
-    margin-bottom: 24px;
+    margin-bottom: 26px;
 
-    color: var(--muted);
+    color: var(--ink-soft);
 
     font-size: 14px;
-    line-height: 1.6;
+
+    line-height: 1.65;
 }
 
-.place-website {
-    color: var(--text);
 
-    font-size: 12px;
+.place-website {
+    display: inline-block;
+
+    color: var(--ink);
+
+    font-size: 10px;
+
+    line-height: 1;
+
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+
+    letter-spacing: 0.10em;
 
     text-decoration: none;
 
-    border-bottom: 1px solid var(--text);
-    padding-bottom: 3px;
+    border-bottom:
+        1px solid var(--ink);
+
+    padding-bottom: 5px;
 }
+
 
 .place-website:hover {
-    opacity: 0.6;
+    opacity: 0.55;
 }
 
 
-/* Mobile */
+/* --------------------------------
+   Mobile
+-------------------------------- */
 
 @media (max-width: 600px) {
 
     .site-header {
-        top: 16px;
-        left: 16px;
-        right: 16px;
+        top: 18px;
+        left: 18px;
+        right: 18px;
 
         display: block;
     }
+
 
     .site-title {
         display: block;
-        margin-bottom: 14px;
+
+        margin-bottom: 17px;
     }
 
+
     .list-navigation {
-        gap: 18px;
+        gap: 20px;
     }
+
+
+    .list-button {
+        font-size: 11px;
+    }
+
 
     .place-panel {
         left: 0;
@@ -266,14 +380,21 @@ body {
 
         width: 100%;
 
-        padding: 28px 24px 32px;
+        padding:
+            30px
+            24px
+            34px;
 
         border-left: 0;
         border-right: 0;
         border-bottom: 0;
+
+        box-shadow:
+            0 -10px 40px rgba(35, 33, 29, 0.08);
     }
 
+
     .place-name {
-        font-size: 22px;
+        font-size: 23px;
     }
 }

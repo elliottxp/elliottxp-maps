@@ -3,7 +3,7 @@ const MAPTILER_API_KEY = "6wr7ktK4OkJWyKMlhoSb";
 const map = new maplibregl.Map({
     container: "map",
 
-    style: `https://api.maptiler.com/maps/streets-v4/style.json?key=${MAPTILER_API_KEY}`,
+    style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${MAPTILER_API_KEY}`,
 
     center: [0, 20],
 
