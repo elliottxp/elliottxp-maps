@@ -1,0 +1,22 @@
+[
+    {
+        "id": "eat",
+        "name": "Eat"
+    },
+    {
+        "id": "drink",
+        "name": "Drink"
+    },
+    {
+        "id": "coffee",
+        "name": "Coffee"
+    },
+    {
+        "id": "culture",
+        "name": "Culture"
+    },
+    {
+        "id": "outdoors",
+        "name": "Outdoors"
+    }
+]
