@@ -1,11 +1,7 @@
 [
     {
-        "id": "eat",
-        "name": "Eat"
-    },
-    {
-        "id": "drink",
-        "name": "Drink"
+        "id": "bakery",
+        "name": "Bakery"
     },
     {
         "id": "coffee",
@@ -18,5 +14,9 @@
     {
         "id": "outdoors",
         "name": "Outdoors"
+    }
+    {
+        "id": "walks",
+        "name": "Walks"
     }
 ]
