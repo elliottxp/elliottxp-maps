@@ -26,3 +26,25 @@ body {
     width: 100%;
     height: 100%;
 }
+
+.place-marker {
+    width: 12px;
+    height: 12px;
+    padding: 0;
+
+    border: 1px solid #33312e;
+    border-radius: 50%;
+
+    background: #f5f4ee;
+
+    cursor: pointer;
+
+    transition:
+        transform 180ms ease,
+        background-color 180ms ease;
+}
+
+.place-marker:hover {
+    background: #33312e;
+    transform: scale(1.5);
+}
