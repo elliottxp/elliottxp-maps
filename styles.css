@@ -34,9 +34,10 @@ body {
     color: var(--ink);
 
     font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    "Inter",
+    Arial,
+    Helvetica,
+    sans-serif;
 
     -webkit-font-smoothing: antialiased;
 }
@@ -142,18 +143,25 @@ body {
 -------------------------------- */
 
 .place-marker {
-    width: 11px;
-    height: 11px;
+    width: 10px;
+    height: 10px;
 
     padding: 0;
 
-    border: 1px solid var(--marker);
+    border:
+        1px solid
+        var(--marker);
 
     border-radius: 50%;
 
-    background: var(--marker-background);
+    background:
+        var(--marker-background);
 
     cursor: pointer;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(246, 245, 239, 0.65);
 
     transition:
         transform 180ms ease,
@@ -262,7 +270,7 @@ body {
     margin:
         0
         42px
-        10px
+        12px
         0;
 
     color: var(--ink);
@@ -273,22 +281,24 @@ body {
 
     font-weight: 400;
 
-    letter-spacing: -0.025em;
+    letter-spacing: -0.035em;
 }
 
 
 .place-category {
-    margin-bottom: 26px;
+    margin-bottom: 28px;
 
     color: var(--ink-soft);
 
-    font-size: 10px;
+    font-size: 9px;
 
     line-height: 1;
 
+    font-weight: 500;
+
     text-transform: uppercase;
 
-    letter-spacing: 0.11em;
+    letter-spacing: 0.14em;
 }
 
 
@@ -369,8 +379,35 @@ body {
 
 
     .list-button {
-        font-size: 11px;
-    }
+    flex-shrink: 0;
+
+    display: block;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--ink-faint);
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    line-height: 1;
+
+    font-weight: 500;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        color 180ms ease;
+}
 
 
     .place-panel {
