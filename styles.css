@@ -1,7 +1,10 @@
 :root {
     --background: #f5f4ee;
+    --surface: #f5f4ee;
     --text: #33312e;
     --muted: #77736d;
+    --border: #d8d5cc;
+    --accent: #33312e;
 }
 
 * {
@@ -23,19 +26,21 @@ body {
 }
 
 #map {
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    inset: 0;
 }
+
+/* Place markers */
 
 .place-marker {
     width: 12px;
     height: 12px;
     padding: 0;
 
-    border: 1px solid #33312e;
+    border: 1px solid var(--accent);
     border-radius: 50%;
 
-    background: #f5f4ee;
+    background: var(--surface);
 
     cursor: pointer;
 
@@ -45,6 +50,143 @@ body {
 }
 
 .place-marker:hover {
-    background: #33312e;
+    background: var(--accent);
     transform: scale(1.5);
+}
+
+/* Place panel */
+
+.place-panel {
+    position: fixed;
+    z-index: 10;
+
+    left: 20px;
+    bottom: 20px;
+
+    width: min(380px, calc(100vw - 40px));
+
+    padding: 28px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        0 12px 40px rgba(40, 38, 34, 0.12);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+
+    transition:
+        opacity 200ms ease,
+        transform 200ms ease,
+        visibility 200ms ease;
+}
+
+.place-panel.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.close-panel {
+    position: absolute;
+
+    top: 20px;
+    right: 20px;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    font-family: inherit;
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.close-panel:hover {
+    color: var(--text);
+}
+
+/* Place information */
+
+.place-name {
+    margin: 0 40px 8px 0;
+
+    font-size: 24px;
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+}
+
+.place-category {
+    margin-bottom: 24px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.place-address {
+    margin-bottom: 20px;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.place-notes {
+    margin-bottom: 24px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.place-website {
+    color: var(--text);
+
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+
+    text-decoration: none;
+
+    border-bottom: 1px solid var(--text);
+    padding-bottom: 3px;
+}
+
+.place-website:hover {
+    opacity: 0.6;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .place-panel {
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        width: 100%;
+
+        padding: 28px 24px 32px;
+
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0;
+    }
+
+    .place-name {
+        font-size: 22px;
+    }
 }

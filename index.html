@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>places i like</title>
+    <title>Elliott XP Maps</title>
 
     <link
         href="https://unpkg.com/maplibre-gl@5.14.0/dist/maplibre-gl.css"
@@ -17,6 +17,23 @@
 <body>
 
     <main id="map"></main>
+
+    <section
+        id="place-panel"
+        class="place-panel"
+        aria-hidden="true"
+    >
+        <button
+            id="close-panel"
+            class="close-panel"
+            type="button"
+            aria-label="Close place"
+        >
+            Close
+        </button>
+
+        <div id="place-content"></div>
+    </section>
 
     <script src="https://unpkg.com/maplibre-gl@5.14.0/dist/maplibre-gl.js"></script>
     <script src="app.js"></script>

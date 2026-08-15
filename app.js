@@ -13,6 +13,11 @@ const map = new maplibregl.Map({
 });
 
 
+const placePanel = document.getElementById("place-panel");
+const placeContent = document.getElementById("place-content");
+const closePanel = document.getElementById("close-panel");
+
+
 async function loadPlaces() {
     const response = await fetch("data/places.json");
 
@@ -24,23 +29,77 @@ async function loadPlaces() {
 }
 
 
+function openPlace(place) {
+    placeContent.innerHTML = "";
+
+    const name = document.createElement("h2");
+    name.className = "place-name";
+    name.textContent = place.name;
+
+    const category = document.createElement("div");
+    category.className = "place-category";
+    category.textContent = place.category;
+
+    const address = document.createElement("div");
+    address.className = "place-address";
+    address.textContent = place.address;
+
+    const notes = document.createElement("div");
+    notes.className = "place-notes";
+    notes.textContent = place.notes;
+
+    placeContent.appendChild(name);
+    placeContent.appendChild(category);
+    placeContent.appendChild(address);
+    placeContent.appendChild(notes);
+
+    if (place.website) {
+        const website = document.createElement("a");
+
+        website.className = "place-website";
+        website.href = place.website;
+        website.target = "_blank";
+        website.rel = "noopener noreferrer";
+        website.textContent = "Visit website";
+
+        placeContent.appendChild(website);
+    }
+
+    placePanel.classList.add("is-visible");
+    placePanel.setAttribute("aria-hidden", "false");
+
+    map.flyTo({
+        center: [place.longitude, place.latitude],
+        zoom: Math.max(map.getZoom(), 5),
+        duration: 1000
+    });
+}
+
+
+function closePlace() {
+    placePanel.classList.remove("is-visible");
+    placePanel.setAttribute("aria-hidden", "true");
+}
+
+
 function addPlaceMarker(place) {
     const markerElement = document.createElement("button");
 
     markerElement.className = "place-marker";
-
     markerElement.type = "button";
-
     markerElement.setAttribute("aria-label", place.name);
 
     markerElement.addEventListener("click", () => {
-        console.log(place);
+        openPlace(place);
     });
 
     new maplibregl.Marker({
         element: markerElement
     })
-        .setLngLat([place.longitude, place.latitude])
+        .setLngLat([
+            place.longitude,
+            place.latitude
+        ])
         .addTo(map);
 }
 
@@ -55,5 +114,7 @@ async function initialisePlaces() {
     }
 }
 
+
+closePanel.addEventListener("click", closePlace);
 
 map.on("load", initialisePlaces);
