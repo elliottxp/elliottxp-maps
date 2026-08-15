@@ -7,7 +7,7 @@ const map = new maplibregl.Map({
 
     center: [0, 20],
 
-    zoom: 1.4,
+    zoom: 1.1,
 
     minZoom: 1
 });
@@ -214,7 +214,7 @@ function panToFeaturedPlace() {
             )
         ],
 
-        zoom: 3.5,
+        zoom: 2.5,
 
         duration: 1800
     });
