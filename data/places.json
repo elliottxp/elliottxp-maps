@@ -130,5 +130,18 @@
         "lists": [
             "Health"
         ]  
+    },
+    {
+        "id": "The Truffle",
+        "name": "The Truffle (La Trufa)",
+        "category": "Outdoors",
+        "address": "62C7+9P6 O Cabo de Area, Cabana de Bergantiños, Spain",
+        "website": "https://www.ensamble.info/thetruffle",
+        "notes": "Clever design.",
+        "latitude": -8.985729,
+        "longitude": 43.220904,
+        "lists": [
+            "Outdoors"
+        ]  
     }
 ]
