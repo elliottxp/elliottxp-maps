@@ -8,7 +8,6 @@
         "notes": "Go early on a wintery cold monrning for fresh salty choc-chip cookie and batch brew.",
         "latitude": -35.315519,
         "longitude": 149.163401,
-        "featured": true,
         "lists": [
             "bakery",
             "coffee"
@@ -49,6 +48,7 @@
         "notes": "I have been using a v60 for years, this was the first time i experianced how a v60 is meant to be prepared and what a v60 is meant to taste like",
         "latitude": 34.993170,
         "longitude": 135.774166,
+        "featured": true,
         "lists": [
             "coffee"
         ]
