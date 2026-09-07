@@ -143,5 +143,18 @@
         "lists": [
             "Outdoors"
         ]  
+    },
+    {
+        "id": "Desert Breath",
+        "name": "Desert Breath",
+        "category": "Outdoors",
+        "address": "Hurghada 2, Red Sea Governorate 1982403, Egypt",
+        "website": "https://danaestratou.com/works_projects/desert-breath/",
+        "notes": "Aliens",
+        "latitude": 27.380174307830877,
+        "longitude": 33.632203105095435,
+        "lists": [
+            "Outdoors"
+        ]  
     }
 ]
